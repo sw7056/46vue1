@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="vue.js"></script>
+    <style>
+        #app{border: black solid 1px; width: 600px; height:150px;margin: 0 auto}
+        th{color: cornflowerblue; margin: 20px}
+        .select{ margin: 20px; border: black solid 1px}
+    </style>
+</head>
+<body>
+<div id="app">
+    <table>
+        <tr>
+            <th>
+                <label style="color: cornflowerblue"><input type="checkbox" @click="check" :checked="checks.length == itemlist.length"/>全选</label>
+            </th>
+            <th>商品序号</th>
+            <th>商品编号</th>
+            <th>商品名称</th>
+            <th>商品单价</th>
+            <th>商品数量</th>
+            <th>移出</th>
+        </tr>
+        <tr v-for="(item,index) in itemlist" :key="index" >
+            <td><input type="checkbox" :value="item" v-model="checks" /></td>
+            <td>{{item.serial}}</td>
+            <td>{{item.number}}</td>
+            <td>{{item.name}}</td>
+            <td>{{item.price}}</td>
+            <td>
+                <span v-on:click="red(item)">-</span>
+                <input type="num" v-model="item.num" />
+                <span v-on:click="add(item)">+</span>
+            </td>
+            <td>
+                <button v-on:click="delect">删除</button>
+            </td>
+        </tr>
+    </table>
+    <div>
+            计算总价：{{price}}元
+    </div>
+</div>
+<script>
+new Vue({
+    el:"#app",
+    data() {
+        return {
+            checks: [],
+            itemlist: [{serial:'1', number:'001', name: 'iphone11', price: '8699', num: '1',},
+                {serial:'2', number:'002', name: '一加7 Pro', price: '4299', num: '1',},
+                {serial:'3', number:'003', name: '小米8', price: '2899', num: '1',}
+                ],
+        }
+    },
+    computed: {
+        price() {
+            var price = 0;
+                this.checks.forEach(item => {
+                    price += Number(item.price) * Number(item.num)
+                })
+            return price
+        },
+        num() {
+            var t = 0;
+            this.checks.forEach(item => {
+                t += Number(item.num);
+            })
+            return t
+        }
+    },
+    methods:{
+        red(item) {
+            if(item.num <=1) {
+                item.num = 1
+            } else {
+                item.num --
+            }
+        },
+        add(item) {
+            item.num++
+        },
+        delect(item){
+            this.checks.splice(this.checks.indexOf(item),1)
+            this.itemlist.splice(this.itemlist.indexOf(item),1)
+        },
+        check() {
+            if (this.checks.length >0) {
+                this.checks = []
+            } else {
+                this.itemlist.forEach(item => {
+                    this.checks.push(item)
+                })
+            }
+        }
+    }
+})
+
+</script>
+</body>
+</html>

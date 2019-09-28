@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="vue.js"></script>
+    <style>
+        .select{ border:1px solid darkred; width: 340px;}
+        ul{list-style: none}
+
+    </style>
+</head>
+<body>
+
+<div id="demo">
+    <img :src="ary" width="200px" height="200px">
+    <ul>
+        <li v-for="(item,index) in list" :key="index" @click="hand(item,index)" :class=[{'select':count==index}]>
+            <p><img :src="item.url" width="30px" height="30px">{{item.name}}</p>
+        </li>
+
+    </ul>
+</div>
+<script>
+
+    new Vue({
+        el:"#demo",
+        data() {
+
+            return {
+                count:0,
+                   ary:'https://img14.360buyimg.com/n0/jfs/t1/82996/21/9721/214907/5d7806e3Ee51f6d3d/fccb3046da724a48.jpg',
+                list: [
+                    {name: '银色iphone11', url: 'https://img14.360buyimg.com/n0/jfs/t1/82996/21/9721/214907/5d7806e3Ee51f6d3d/fccb3046da724a48.jpg' },
+                    {name: '金色iphone11', url: 'https://img14.360buyimg.com/n0/jfs/t1/56301/5/10386/211488/5d780797E72ea2320/08919f815acbc696.jpg'},
+                    {name: '暗夜绿色iphone11',url:'https://img14.360buyimg.com/n0/jfs/t1/71925/32/10157/177816/5d7805fdE1ff5a318/1f6702cefce11ca1.jpg'},
+                    {name: '深夜灰色iphone11', url: 'https://img14.360buyimg.com/n0/jfs/t1/48865/8/10475/189145/5d7806a6E9b1c93fc/51f2ffe7a661bdf5.jpg'}]
+            }
+        },
+        methods:{
+            hand(item,index) {
+            this.ary=item.url
+             this.count=index
+            }
+        }
+    })
+</script>
+</body>
+</html>
